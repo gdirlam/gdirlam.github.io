@@ -1,12 +1,22 @@
 <html>
 <script>
-fetch('https://gdirlam.github.io/customer.json', {
-  mode: 'no-cors' // 'cors' by default
+fetch('https://gdirlam.github.io/customer.js', {
+  method: 'POST'
+,   headers: {
+    'Content-Type': 'application/json'
+  }
+  //,  body: JSON.stringify({ 'VIN': '1HVBBABP0SH630828'})
 })
-.then(function(response) {
+.then(function (response) {
+	debugger; 
+  	return response.json();
+})
+.then(function (data) {
 debugger; 
-  document.write( "response") // Do something with response""
+    JSON.stringify(data).write();
 });
+
+  
 </script>
 <body>
 gdirlam es repo
