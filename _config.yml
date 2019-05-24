@@ -1,0 +1,2 @@
+webserver_headers:
+  "Access-Control-Allow-Origin": "*"
