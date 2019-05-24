@@ -1,5 +1,4 @@
 theme: jekyll-theme-minimal
 
-webrick:
-  headers:
-    Access-Control-Allow-Origin: "*"
+webserver_headers:
+  "Access-Control-Allow-Origin": "*"
