@@ -133,7 +133,7 @@ ol, ul {
 	.primaryNav #home {
 		display: block;
 		float: none;
-		background: #ffffff url('img/L1-left.png') center bottom no-repeat;
+		background: #ffffff   center bottom no-repeat;
 		position: relative;
 		z-index: 2;
 		padding: 0 0 30px 0;
@@ -141,7 +141,7 @@ ol, ul {
 
 	.primaryNav li {
 		float: left;
-		background: url('img/L1-center.png') center top no-repeat;
+		background:  center top no-repeat;
 		padding: 30px 0;
 		margin-top: -30px;
 	}
@@ -154,7 +154,7 @@ ol, ul {
 			font-weight: bold;
 			text-align: center;
 			color: black;
-			background: #c3eafb url('img/white-highlight.png') top left repeat-x;
+			background: #c3eafb   top left repeat-x;
 			border: 2px solid #b5d9ea;
 			-moz-border-radius: 5px;
 			-webkit-border-radius: 5px;
@@ -168,7 +168,7 @@ ol, ul {
 			}
 
 		.primaryNav li:last-child {
-			background: url('img/L1-right.png') center top no-repeat;
+			background: center top no-repeat;
 		}
 
 a div {
@@ -190,7 +190,7 @@ a div {
 	clear: left;
 	margin-top: 0;
 	padding: 10px 0 0 0;
-	background: url('img/vertical-line.png') center bottom repeat-y;
+	background:   center bottom repeat-y;
 }
 
 	.primaryNav li li a {
@@ -208,7 +208,7 @@ a div {
 	}
 
 	.primaryNav li li:last-child {
-		background: url('img/vertical-line.png') center bottom repeat-y;
+		background:   center bottom repeat-y;
 	}
 
 	.primaryNav li li a:link:before,
@@ -223,11 +223,11 @@ a div {
 		width: 100%;
 		float: right;
 		padding: 9px 0 10px 0;
-		background: #ffffff url('img/L3-ul-top.png') center top no-repeat;
+		background: #ffffff   center top no-repeat;
 	}
 
 	.primaryNav li li li {
-		background: url('img/L3-center.png') left center no-repeat;
+		background:   left center no-repeat;
 		padding: 5px 0;
 	}
 
@@ -247,11 +247,11 @@ a div {
 
 		.primaryNav li li li:first-child {
 			padding: 15px 0 5px 0;
-			background: url('img/L3-li-top.png') left center no-repeat;
+			background:  left center no-repeat;
 		}
 
 		.primaryNav li li li:last-child {
-			background: url('img/L3-bottom.png') left center no-repeat;
+			background:  left center no-repeat;
 		}
 
 		.primaryNav li li li a:link:before,
@@ -285,7 +285,7 @@ a div {
 			font-weight: bold;
 			text-align: center;
 			color: black;
-			background: #fff7aa url('img/white-highlight.png') top left repeat-x;
+			background: #fff7aa  top left repeat-x;
 			-moz-border-radius: 5px;
 			-webkit-border-radius: 5px;
 			-webkit-box-shadow: rgba(0,0,0,0.5) 2px 2px 2px;
