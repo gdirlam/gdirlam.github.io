@@ -1,13 +1,63 @@
-function FormChange(form, options) {
+
+
+
+
+function IsDoForm(form, options) {
 	base = {}
 
 	base.Options = $.extend({}, base.Defaults, options);
-	//debugger; 
-	base.form = form.length == 0 ? $($('form')[0] ) : $(form) ;
+
+	base.form = form.length == 0 ? $($('form')[0]) : $(form);
 	base.history = ["clean", "clean"]; 
 	base.isDirty = false; 
+	base.submitting = false; 
+
 	base.Init = function () {
-		//debugger; 
+		base.SetupIsDirty(); 
+		base.SetupIsValid(); 
+		base.SetupIsLoad(); 
+	};
+
+	base.SetupIsLoad = function () {
+		//var form = $("#my-form");
+		var route = base.form.data("isload-route");
+		var controller = base.form.data("isload-controller");
+		var id = base.form.data("isload-id");
+
+		if (route && controller) {
+			$.ajax({
+				url: "/" + route + "/" + controller + "/" + id,
+				type: "GET",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function (data, textStatus) {
+					var d = data;
+					$(".data-isload-control", base.form).each(function (i, el) {
+						var field = $(el).data("isload-controller");
+						$(el).val(d[field]);
+					});
+				},
+				error: function () {
+					// debugger;
+				}
+			});
+		}
+	}
+
+	base.SetupIsValid = function () {
+		base.form.on('submit', function (e) {
+			console.log("Validation Init submitting", base.submitting)
+			base.submitting = true;
+			if (base.form[0].checkValidity() === false) {
+				base.submitting = false; 
+				e.preventDefault();
+				e.stopPropagation();
+			}
+			base.form.addClass('was-validated');
+		});
+	}
+
+	base.SetupIsDirty = function () {
 		$(":input:not([type='checkbox']):not([type='radio'])", base.form).each(function (i, el) {
 			//debugger; 
 			$(el).attr("data-init-value", $(el).val());
@@ -23,12 +73,15 @@ function FormChange(form, options) {
 
 		base.form.on('submit', function () {
 			base.submitting = true;
+			console.log("FormChangeInit submitting", base.submitting)
 		});
 
 		if (base.Options.preventLeaving) {
 
 			$(window).on('beforeunload', function () {
-				if (base.isDirty && !base.submitting ) {
+				//debugger;
+				console.log("Before unload submitting", base.submitting)
+				if (base.isDirty && !base.submitting) {
 					return base.Options.leavingMessage;
 				}
 			});
@@ -36,16 +89,15 @@ function FormChange(form, options) {
 		};
 
 		$(":input", base.form).change(function (i, el) {
-			base.checkValues();
+			base.DoDirty();
 		});
 
 		$("input, textarea", base.form).on('keyup keydown blur', function (i, el) {
-			base.checkValues();
+			base.DoDirty();
 		});
+	}
 
-	};
-
-	base.checkValues = function () {
+	base.DoDirty = function () {
 
 		base.isDirty = false;
 		$(":input:not([type='checkbox']):not([type='radio'])", base.form).each(function (i, el) {
@@ -67,38 +119,27 @@ function FormChange(form, options) {
 		 });
 
 		//console.log("isDirty", base.isDirty)
-		//debugger; 
 		if (base.isDirty) {
-			base.setDirty();
+			//base.setDirty();
+			base.history[0] = base.history[1];
+			base.history[1] = "dirty";
 		} else {
 			//debugger; 
-			base.setClean();
-		}
+			//base.setClean();
+			base.isDirty = false;
+			base.history[0] = base.history[1];
+			base.history[1] = "clean";		}
 
-		this.fireEvents();
-	};
-
-	base.fireEvents = function () {
+		//fireEvents();
 		if (base.isDirty && base.history[0] == "clean") {
 			base.form.trigger("dirty");
-			base.onDirty()
+			base.onDirty();
 		}
 		if (!base.isDirty && this.history[0] == "dirty") {
 			base.form.trigger("clean");
-			base.onClean()
+			base.onClean();
 		}
-	};
 
-	base.setDirty = function () {
-		base.history[0] = base.history[1];
-		base.history[1] = "dirty";
-	};
-
-	base.setClean = function () {
-		//debugger; 
-		base.isDirty = false;
-		base.history[0] = base.history[1];
-		base.history[1] = "clean";
 	};
 
 	//defaults...
@@ -123,16 +164,19 @@ function FormChange(form, options) {
 	return base
 }
 
+
+
 (function main() {
 	console.log("step", "Main");
-	$.fn.formchange = function (options) {
-		FormChange($(this), options);
+	$.fn.isdoform = function (options) {
+		IsDoForm($(this), options);
 	}
 })()
+
 $(function () {
 	console.log("step", "Jquery Fn");
-	$.fn.formchange = function (options) {
-		FormChange($(this), options);
+	$.fn.isdoform = function (options) {
+		IsDoForm($(this), options);
 	}
 })
 
@@ -142,5 +186,5 @@ $(function () {
 
 //$("#my-form").formchange();
 	$(function () {
-		$("#my-form").formchange();
+		$("#my-form").isdoform();
 	})
