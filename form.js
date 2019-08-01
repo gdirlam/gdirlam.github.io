@@ -1,16 +1,13 @@
-
-
-
-
 function FormChange(form, options) {
 	base = {}
 
 	base.Options = $.extend({}, base.Defaults, options);
-	base.form = form || $('form')[0];
+	//debugger; 
+	base.form = form.length == 0 ? $($('form')[0] ) : $(form) ;
 	base.history = ["clean", "clean"]; 
 	base.isDirty = false; 
 	base.Init = function () {
-		
+		//debugger; 
 		$(":input:not([type='checkbox']):not([type='radio'])", base.form).each(function (i, el) {
 			//debugger; 
 			$(el).attr("data-init-value", $(el).val());
@@ -29,12 +26,15 @@ function FormChange(form, options) {
 		});
 
 		if (base.Options.preventLeaving) {
+
 			$(window).on('beforeunload', function () {
-				if (base.isDirty && !base.submitting) {
+				if (base.isDirty && !base.submitting ) {
 					return base.Options.leavingMessage;
 				}
 			});
-		}
+
+		};
+
 		$(":input", base.form).change(function (i, el) {
 			base.checkValues();
 		});
@@ -102,8 +102,8 @@ function FormChange(form, options) {
 	};
 
 	//defaults...
-	base.preventLeaving = true; 
-	base.leavingMessage = "You have unsaved changes"; 
+	base.Options.preventLeaving = true; 
+	base.Options.leavingMessage = "You have unsaved changes"; 
 	base.onDirty = function () {
 		$("#status").html("dirty");
 		$("#save").removeAttr("disabled");
@@ -117,21 +117,30 @@ function FormChange(form, options) {
 	
 	var init = (function init() {
 		base.Init(); 
+		console.log("step", "Init"); 
 	})()
+
 	return base
 }
+
 (function main() {
-	//debugger; 
+	console.log("step", "Main");
 	$.fn.formchange = function (options) {
-		FormChange($(this), options); 
+		FormChange($(this), options);
 	}
 })()
+$(function () {
+	console.log("step", "Jquery Fn");
+	$.fn.formchange = function (options) {
+		FormChange($(this), options);
+	}
+})
 
-//FormChange($("#my-form"));
 
-	//$(function () {
 
-//debugger; 
 
-$("#my-form").formchange();
-	//})
+
+//$("#my-form").formchange();
+	$(function () {
+		$("#my-form").formchange();
+	})
